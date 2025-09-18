@@ -1,0 +1,155 @@
+/* Reset some defaults */
+body, html, #root, .App {
+  margin: 0;
+  padding: 0;
+  font-family: 'Georgia', serif;
+  background-color: #f8f6f0;
+  color: #1a1a1a;
+  height: 100%;
+}
+
+/* Header styling */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 60px;
+  border-bottom: 1px solid #d7d3ca;
+  background-color: #f8f6f0;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 24px;
+  margin: 0;
+}
+
+.nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #1a1a1a;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+.get-started-btn {
+  padding: 8px 16px;
+  font-weight: 500;
+  background-color: #0a0a0a;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-left: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.get-started-btn:hover {
+  background-color: #333;
+}
+
+/* Main content */
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 80px 60px;
+  position: relative;
+  min-height: 400px;
+}
+
+/* Text content on left */
+.text-content {
+  flex: 1;
+  max-width: 600px;
+}
+
+.headline {
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+  padding-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 18px;
+  margin-bottom: 40px;
+  font-weight: normal;
+}
+
+/* Start reading button */
+.start-reading-btn {
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #0a0a0a;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.start-reading-btn:hover {
+  background-color: #333;
+}
+
+/* Right side image content */
+.image-content {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* The green flower shape */
+.green-flower {
+  width: 180px;
+  height: 180px;
+  background-color: #00b900;
+  border-radius: 80% 60% 50% 70% / 60% 80% 50% 60%;
+  filter: brightness(90%);
+  position: absolute;
+  top: 0;
+  right: 150px;
+  z-index: 1;
+}
+
+/* The hand shape */
+.hand-writing {
+  width: 200px;
+  height: 150px;
+  background-color: #00b900;
+  clip-path: polygon(20% 30%, 80% 30%, 90% 60%, 80% 90%, 30% 70%, 20% 60%);
+  position: absolute;
+  bottom: 20px;
+  right: 60px;
+  z-index: 2;
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid #d7d3ca;
+  padding: 20px 60px;
+  text-align: center;
+  background-color: #f8f6f0;
+}
+
+.footer nav a {
+  margin: 0 10px;
+  font-size: 13px;
+  color: #7a7a7a;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.footer nav a:hover {
+  text-decoration: underline;
+}
