@@ -23,15 +23,15 @@ public class User {
     @Column(unique = true, length = 50)
     private String username;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false, length = 100)
     private String email;
 
-//    @Column(nullable = false)
+    @Column(nullable = false, length = 8)
     private String password;
 
     private boolean is_verified = false;
 
-    private Role role = Role.USER;
+    private Role role = Role.USERS;
 
     private String avatar;
 
@@ -39,6 +39,7 @@ public class User {
 
     @Column(updatable = false)
     private LocalDateTime created_at;
+
 
     @JsonProperty("email")
     public String getEmail() {
