@@ -26,11 +26,12 @@ public class User {
     @Column(unique = true)
     private String email;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String password;
 
     private boolean is_verified = false;
 
+    @Enumerated(EnumType.STRING) //If we don't use this, It take role as integer like 0,1,2,...
     private Role role = Role.USER;
 
     private String avatar;
@@ -40,14 +41,23 @@ public class User {
     @Column(updatable = false)
     private LocalDateTime created_at;
 
+    private LocalDateTime updated_at;
+
     @JsonProperty("email")
     public String getEmail() {
         return email;
     }
 
-    //automatically update the date while running this class
+    // Automatically set created_at and updated_at on insert
     @PrePersist
-    protected void onCreate(){
+    protected void onCreate() {
         this.created_at = LocalDateTime.now();
+        this.updated_at = LocalDateTime.now();
+    }
+
+    // Automatically update updated_at on any update
+    @PreUpdate
+    protected void onUpdate() {
+        this.updated_at = LocalDateTime.now();
     }
 }
