@@ -23,13 +23,16 @@ public class User {
     @Column(unique = true, length = 50)
     private String username;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false, length = 100)
     private String email;
 
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 8)
+
     private String password;
 
     private boolean is_verified = false;
+
 
     @Enumerated(EnumType.STRING) //If we don't use this, It take role as integer like 0,1,2,...
     private Role role = Role.USER;

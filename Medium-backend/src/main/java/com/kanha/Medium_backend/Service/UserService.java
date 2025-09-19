@@ -6,9 +6,12 @@ import com.kanha.Medium_backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -20,8 +23,14 @@ public class UserService {
         this.userRepo = userRepo;
     }
 
-    public void getProfileById() {
 
+    //getting the user by it's id
+    public ResponseEntity<User> getProfileById(UUID id){
+        User user = userRepo.findById(id).orElse(null);
+        if(user != null)
+            return new ResponseEntity<>(user, HttpStatus.FOUND);
+        else
+            return new ResponseEntity<>(user, HttpStatus.NOT_FOUND);
     }
 
     public ResponseEntity<List<User>> getProfileAllUsers(){
@@ -33,21 +42,46 @@ public class UserService {
         }
     }
 
-    public void updateUser(User user) {
-        User currentUser = new User();
-        currentUser.setId(user.getId());
-        currentUser.setUsername(user.getUsername());
-        currentUser.setEmail(user.getEmail());
-        currentUser.setPassword(user.getPassword());
-        currentUser.set_verified(true);
-        currentUser.setRole(user.getRole());
-        currentUser.setAvatar(user.getAvatar());
-        currentUser.setBio(user.getBio());
-        userRepo.save(currentUser);
+    public ResponseEntity<?> updateUser(User user, UUID id) {
+       User user1 = userRepo.getReferenceById(id);
+
+       user1.setRole(user.getRole());
+       user1.setAvatar(user.getAvatar());
+       user1.setBio(user.getBio());
+       user1.setUsername(user.getUsername());
+       user1.setEmail(user.getEmail());
+       user1.setPassword(user.getPassword());
+       user1.setCreated_at(LocalDateTime.now());
+       user1.setRole(user.getRole());
+       user1.set_verified(true);
+
+        try {
+            userRepo.save(user1);
+            return new ResponseEntity<>("Successfully Updated", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Fill the Required fields properly",HttpStatus.NOT_FOUND);
+        }
     }
 
-    public void addUser(User user) {
-        userRepo.save(user);
-        System.out.println("Added to the repo through service");
+    public ResponseEntity<?> addUser(User user) {
+        try {
+            userRepo.save(user);
+            return new ResponseEntity<>("Added to the repo through service", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Please Fill proper data", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    //to delete the user
+    public ResponseEntity<?> deleteUserByID(UUID id) {
+        //if user is not null then delete otherwise httpStatus Not Found
+        User user = userRepo.getReferenceById(id);
+
+        if(user != null) {
+            userRepo.delete(user);
+            return new ResponseEntity<>("Deleted", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
+        }
     }
 }
