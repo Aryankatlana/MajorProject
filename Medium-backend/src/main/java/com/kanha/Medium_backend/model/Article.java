@@ -35,7 +35,7 @@ public class Article {
     private LocalDateTime updated_at;
 
     @PrePersist
-    protected void onCreate(){
+    protected void onCreate(){ // hello
         this.created_at = LocalDateTime.now();
         this.updated_at = LocalDateTime.now();
     }
