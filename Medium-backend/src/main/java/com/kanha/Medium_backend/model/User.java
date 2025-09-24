@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -35,7 +36,7 @@ public class User {
 
 
     @Enumerated(EnumType.STRING) //If we don't use this, It take role as integer like 0,1,2,...
-    private Role role = Role.USER;
+    private Role role = Role.USERS;
 
     private String avatar;
 
@@ -45,6 +46,15 @@ public class User {
     private LocalDateTime created_at;
 
     private LocalDateTime updated_at;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Article> articles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Like> likes;
 
     @JsonProperty("email")
     public String getEmail() {
