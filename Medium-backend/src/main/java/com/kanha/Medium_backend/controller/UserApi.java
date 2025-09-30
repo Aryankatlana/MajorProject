@@ -18,10 +18,9 @@ public class UserApi {
     private UserService userService;
 
     //Listing out all the users
-    @GetMapping("profile")
+    @GetMapping("/profile")
     private ResponseEntity<List<User>>  getProfileAllUsers(){
-        List<User> user = userService.getProfileAllUsers().getBody();
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return userService.getProfileAllUsers();
     }
 
     //Get User by ID
@@ -33,7 +32,7 @@ public class UserApi {
     //adding the user
     @PostMapping("profile")
     private ResponseEntity<?> addUser(@RequestBody User user){
-        return new ResponseEntity<>("Created", userService.addUser(user).getStatusCode());
+        return userService.addUser(user);
     }
 
 
@@ -47,7 +46,7 @@ public class UserApi {
     //delete the user by specific id
     @DeleteMapping("profile/{id}")
     private ResponseEntity<?> DeleteUSerById(@PathVariable UUID id){
-        return new ResponseEntity<>("Deleted",userService.deleteUserByID(id).getStatusCode());
+        return userService.deleteUserByID(id);
     }
 
 

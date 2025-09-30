@@ -35,7 +35,7 @@ public class User {
     private boolean is_verified = false;
 
 
-    @Enumerated(EnumType.STRING) //If we don't use this, It take role as integer like 0,1,2,...
+//    @Enumerated(EnumType.STRING) //If we don't use this, It take role as integer like 0,1,2,...
     private Role role = Role.USERS;
 
     private String avatar;

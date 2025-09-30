@@ -1,12 +1,10 @@
 package com.kanha.Medium_backend.Service;
 
-import com.kanha.Medium_backend.Exception.UserNotFoundException;
 import com.kanha.Medium_backend.Repository.UserRepo;
 import com.kanha.Medium_backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -33,12 +31,14 @@ public class UserService {
             return new ResponseEntity<>(user, HttpStatus.NOT_FOUND);
     }
 
+    //getting all the users
     public ResponseEntity<List<User>> getProfileAllUsers(){
-        try {
-            List<User> users = userRepo.findAll();
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        List<User> users = userRepo.findAll();
+
+        if (users.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
+        } else {
+            return new ResponseEntity<>(users, HttpStatus.OK); // 200 OK with users
         }
     }
 
