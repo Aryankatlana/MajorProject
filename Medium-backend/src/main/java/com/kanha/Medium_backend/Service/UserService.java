@@ -14,13 +14,12 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-    @Autowired
+    @Autowired   //Don't need this because we are using Constructor injection and it is good
     private UserRepo userRepo;
 
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
-
 
     //getting the user by it's id
     public ResponseEntity<User> getProfileById(UUID id){
@@ -43,17 +42,17 @@ public class UserService {
     }
 
     public ResponseEntity<?> updateUser(User user, UUID id) {
-       User user1 = userRepo.getReferenceById(id);
+        User user1 = userRepo.getReferenceById(id);
 
-       user1.setRole(user.getRole());
-       user1.setAvatar(user.getAvatar());
-       user1.setBio(user.getBio());
-       user1.setUsername(user.getUsername());
-       user1.setEmail(user.getEmail());
-       user1.setPassword(user.getPassword());
-       user1.setCreated_at(LocalDateTime.now());
-       user1.setRole(user.getRole());
-       user1.set_verified(true);
+        user1.setRole(user.getRole());
+        user1.setAvatar(user.getAvatar());
+        user1.setBio(user.getBio());
+        user1.setUsername(user.getUsername());
+        user1.setEmail(user.getEmail());
+        user1.setPassword(user.getPassword());
+        user1.setCreated_at(LocalDateTime.now());
+        user1.setRole(user.getRole());
+        user1.set_verified(true);
 
         try {
             userRepo.save(user1);

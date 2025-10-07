@@ -39,7 +39,6 @@ public class Article {
     )
     private List<Tag> tags;
 
-
     @Column(updatable = false)
     private LocalDateTime created_at;
 

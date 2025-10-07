@@ -35,7 +35,6 @@ public class UserApi {
         return userService.addUser(user);
     }
 
-
     //update the user by passing the id
     @PutMapping("profile/{id}")
     private ResponseEntity<?> updateProfile(@RequestBody User user, @PathVariable UUID id){
@@ -48,6 +47,4 @@ public class UserApi {
     private ResponseEntity<?> DeleteUSerById(@PathVariable UUID id){
         return userService.deleteUserByID(id);
     }
-
-
 }
