@@ -45,9 +45,7 @@ public class UserApi {
 
     //delete the user by specific id
     @DeleteMapping("profile/{id}")
-    private ResponseEntity<?> DeleteUSerById(@PathVariable UUID id){
+    private ResponseEntity<?> DeleteUserById(@PathVariable UUID id){
         return userService.deleteUserByID(id);
     }
-
-
 }
