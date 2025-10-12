@@ -5,6 +5,7 @@ import com.kanha.Medium_backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -45,21 +46,22 @@ public class UserService {
     public ResponseEntity<?> updateUser(User user, UUID id) {
        User user1 = userRepo.getReferenceById(id);
 
-       user1.setRole(user.getRole());
-       user1.setAvatar(user.getAvatar());
-       user1.setBio(user.getBio());
-       user1.setUsername(user.getUsername());
-       user1.setEmail(user.getEmail());
-       user1.setPassword(user.getPassword());
-       user1.setCreated_at(LocalDateTime.now());
-       user1.setRole(user.getRole());
-       user1.set_verified(true);
-
+       if(user1 != null) {
+           user1.setRole(user.getRole());
+           user1.setAvatar(user.getAvatar());
+           user1.setBio(user.getBio());
+           user1.setUsername(user.getUsername());
+           user1.setEmail(user.getEmail());
+           user1.setPassword(user.getPassword());
+           user1.setCreated_at(LocalDateTime.now());
+           user1.setRole(user.getRole());
+           user1.set_verified(true);
+       }
         try {
             userRepo.save(user1);
             return new ResponseEntity<>("Successfully Updated", HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>("Fill the Required fields properly",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Fill the Required fields properly",HttpStatus.BAD_REQUEST);
         }
     }
 

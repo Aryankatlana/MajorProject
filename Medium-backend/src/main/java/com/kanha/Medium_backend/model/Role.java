@@ -1,7 +1,7 @@
 package com.kanha.Medium_backend.model;
 
 public enum Role {
-    USERS,
-    ADMIN,
-    EDITOR
+    USERS, //0
+    ADMIN,//1
+    EDITOR //2
 }
