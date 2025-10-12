@@ -15,7 +15,7 @@ public class ArticleApi {
     @Autowired
     ArticleService articleService;
 
-    //getArticle
+    //listing all the articles
     @GetMapping("/get")
     private List<Article> getAllArticle(){
         return articleService.getArticles();
