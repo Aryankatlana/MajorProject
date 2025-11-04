@@ -17,14 +17,14 @@ public class ArticleApi {
     ArticleService articleService;
 
     //listing all the articles
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/get")
     public List<Article> getAllArticle(){
         return articleService.getArticles();
     }
 
     //create the article
-    @PreAuthorize("hasAnyAuthority('USERS')")
+    @PreAuthorize("hasAuthority('USERS')")
     @PostMapping("/add")
     public void createArticle(@RequestBody Article article){
         articleService.addArticle(article);
@@ -32,24 +32,25 @@ public class ArticleApi {
 
     //user make changes in their article
 
-    @PreAuthorize("hasAnyAuthority('User')")
+    @PreAuthorize("hasAuthority('USERS')")
     @PutMapping("{id}")
     public void editArticle(@PathVariable UUID id, @RequestBody Article article){
         articleService.updateArticle(article, id);
     }
 
     //delete the article
-
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USERS')")
     @DeleteMapping("{id}")
     public void deleteArticle(@PathVariable UUID id){
         articleService.deleteArticle(id);
     }
 
-    //get particular article by that article id
+    //returning their own articles
 
-    @GetMapping("{id}")
-    public Article getArticleBySlug(@PathVariable UUID id){
-        return articleService.getArticlesById(id);
+    @PreAuthorize("hasAuthority('USERS')")
+    @GetMapping("/myArticles")
+    public List<Article> myArticles(){ // here we are passing user's id
+        return articleService.getArticlesofCurrentUser();
     }
 
     //get

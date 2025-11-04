@@ -38,7 +38,7 @@ public class UserApi {
 
     //Get User by ID
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USERS')")
     @GetMapping("profile/{id}")
     public ResponseEntity<User> getUserById(@PathVariable UUID id){
         return new ResponseEntity<>(userService.getProfileById(id).getBody(), userService.getProfileById(id).getStatusCode());
@@ -55,7 +55,7 @@ public class UserApi {
 
     //update the user by passing the id
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USERS')")
     @PutMapping("profile/{id}")
     public ResponseEntity<?> updateProfile(@RequestBody User user, @PathVariable UUID id){
         ResponseEntity<?> user1 = userService.updateUser(user, id);
@@ -64,7 +64,7 @@ public class UserApi {
 
     //delete the user by specific id
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USERS')")
     @DeleteMapping("profile/{id}")
     public ResponseEntity<?> DeleteUserById(@PathVariable UUID id){
         return userService.deleteUserByID(id);
