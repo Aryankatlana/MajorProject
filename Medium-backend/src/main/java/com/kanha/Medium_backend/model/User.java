@@ -1,5 +1,6 @@
 package com.kanha.Medium_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -48,6 +49,7 @@ public class User {
     private LocalDateTime updated_at;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Article> articles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class UserPrincipal implements UserDetails {
 
@@ -16,6 +17,10 @@ public class UserPrincipal implements UserDetails {
         this.user  = user;
     }
 
+    //getting the current user's id
+    public UUID getId(){
+        return user.getId();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -3,6 +3,7 @@ package com.kanha.Medium_backend.controller;
 import com.kanha.Medium_backend.Service.ArticleService;
 import com.kanha.Medium_backend.model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,22 +17,40 @@ public class ArticleApi {
     ArticleService articleService;
 
     //listing all the articles
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/get")
-    private List<Article> getAllArticle(){
+    public List<Article> getAllArticle(){
         return articleService.getArticles();
     }
 
     //create the article
+    @PreAuthorize("hasAnyAuthority('USERS')")
     @PostMapping("/add")
-    private void addArticle(@RequestBody Article article){
+    public void createArticle(@RequestBody Article article){
         articleService.addArticle(article);
     }
-    /*  update -> put
-    * get by slug -> get
-    *  list (filters: tag, author, feed) -> getAll
-    *  delete -> delete
-    *  publish -> post
-    * */
 
+    //user make changes in their article
 
+    @PreAuthorize("hasAnyAuthority('User')")
+    @PutMapping("{id}")
+    public void editArticle(@PathVariable UUID id, @RequestBody Article article){
+        articleService.updateArticle(article, id);
+    }
+
+    //delete the article
+
+    @DeleteMapping("{id}")
+    public void deleteArticle(@PathVariable UUID id){
+        articleService.deleteArticle(id);
+    }
+
+    //get particular article by that article id
+
+    @GetMapping("{id}")
+    public Article getArticleBySlug(@PathVariable UUID id){
+        return articleService.getArticlesById(id);
+    }
+
+    //get
 }
