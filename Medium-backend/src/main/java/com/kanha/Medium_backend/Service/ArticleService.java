@@ -30,7 +30,7 @@ public class ArticleService {
 
     // add article
 
-    public void addArticle(Article article) {
+    public ResponseEntity<?> addArticle(Article article) {
 
         //get the user id -> jisme ham article store karna chahte h
         UUID id = authService.providingUserId();
@@ -39,20 +39,25 @@ public class ArticleService {
         User user = userRepo.findById(id).get(); // .get() -> try karo Optional ke andar jo object h use return karo
 
         //then us user ko article me store karte hai or ye map ho jata h Many To One ke form me
-        article.setUser(user);
-        articleRepo.save(article);
+        try {
+            article.setUser(user);
+            articleRepo.save(article);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     //get article of Specific user By Id
 
-    public List<Article> getArticles() {
+    public ResponseEntity<List<Article>> getArticles() {
         System.out.println("All article got successsfully");
-        return articleRepo.findAll();
+        return new ResponseEntity<>(articleRepo.findAll(), HttpStatus.OK);
     }
 
     //update the article
 
-    public void updateArticle(Article article, UUID id) {
+    public ResponseEntity<?> updateArticle(Article article, UUID id) {
         Article article1 = articleRepo.findById(id)
                 .orElseThrow(
                         () ->
@@ -71,31 +76,37 @@ public class ArticleService {
 
             articleRepo.save(article1);
             System.out.println("Successfully updated");
-//            return new ResponseEntity<>("Successfully Updated the Article", HttpStatus.OK);
+            return new ResponseEntity<>("Successfully Updated the Article", HttpStatus.OK);
         } catch (Exception e) {
-//            return new ResponseEntity<>("Failed to save this article", HttpStatus.BAD_REQUEST);
-            System.out.println("Failed to save the article");
+            return new ResponseEntity<>("Failed to save this article", HttpStatus.BAD_REQUEST);
         }
     }
 
-    public void deleteArticle(UUID id) {
+    public ResponseEntity<?> deleteArticle(UUID id) {
         User user = userRepo.findById(authService.providingUserId()).get();
 
         UUID userStoredInCurrentArticleId = articleRepo.findById(id).get().getUser().getId();
         if((user.getId().equals(userStoredInCurrentArticleId)) || (user.getRole() == Role.ADMIN)){
             articleRepo.deleteById(id);
+            return new ResponseEntity<>("Deleted", HttpStatus.OK);
         }else{
-            System.out.println("Unauthorized");
+            return new ResponseEntity<>("Unauthorized", HttpStatus.FORBIDDEN);
         }
     }
 
     //get all the article of that current user by It's id
-    public List<Article> getArticlesofCurrentUser() {
+    public ResponseEntity<List<Article>> getArticlesofCurrentUser() {
         //remember that we'll fetch only those articles which is to be returned by 1 own user
 
-        User currLoggedInUser = userRepo.findById(authService.providingUserId()).get();
+        User currLoggedInUser = null;
+        try {
+            currLoggedInUser = userRepo.findById(authService.providingUserId()).get();
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         //now we'll check the articles written by him
-        return new ArrayList<Article>(currLoggedInUser.getArticles());
+        List<Article> list = currLoggedInUser.getArticles();
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

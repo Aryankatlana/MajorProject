@@ -1,9 +1,11 @@
 package com.kanha.Medium_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +15,7 @@ import java.util.List;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "article_id", nullable = false)
@@ -27,6 +29,7 @@ public class Comment {
     @JoinColumn(name = "parent_comment_id")
     private Comment parentComment; // for nested comments
 
+    @JsonIgnore
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL)
     private List<Comment> replies;
 
@@ -34,5 +37,6 @@ public class Comment {
     private String content;
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
 }
 
