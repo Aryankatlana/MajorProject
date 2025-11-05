@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,15 +63,20 @@ public class CommentService {
         return new ResponseEntity<>(commentRepo.save(commentObj), HttpStatus.OK);
     }
 
-    //list all the comment
+    //list all the specific user's comment
 
     public ResponseEntity<List<Comment>> getComments(UUID articleId) {
         try{
-            List<Comment> list = commentRepo.findAll();
+            List<Comment> list = commentRepo.findByArticleId(articleId); //giving specific comments
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    //list all the comment
+    public ResponseEntity<List<Comment>> getAllComments(){
+        return new ResponseEntity<>(commentRepo.findAll(), HttpStatus.OK);
     }
 
     //delete the comment

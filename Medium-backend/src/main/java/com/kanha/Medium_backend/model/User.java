@@ -1,5 +1,6 @@
 package com.kanha.Medium_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -52,6 +53,7 @@ public class User {
     @JsonManagedReference
     private List<Article> articles;
 
+    @JsonIgnore //for not getting the infinite loop 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
